@@ -277,10 +277,12 @@ systemctl status xrdp
 ```
 =============================================================
 ## Continue with instalation until you can access the dashboard
-(insert image here)
+![login](https://github.com/eyeVann/apachecloudstack/assets/94208239/cad89c87-a47b-44df-99ae-7024ce0a4604)
+
+![dash](https://github.com/eyeVann/apachecloudstack/assets/94208239/c629e555-cda6-450d-8934-336115ee73f1)
 
 ### Register ISO and add instance
-(insert image here)
+![iso](https://github.com/eyeVann/apachecloudstack/assets/94208239/228fa60e-7a03-42a0-8830-f6040aae0281)
 
 =============================================================
 ## Install additional KVM host
