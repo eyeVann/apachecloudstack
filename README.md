@@ -1,12 +1,16 @@
 Group: ACS A
 
-1. M. Aditya Kurniawan
+1. Muhammad Aditya Kurniawan
 2. Ivan Indrastata Ramadhan
-3. Aliefya Fikri
-4. M. Dyenta
-5. Rain Elgratio
+3. Aliefya Fikri Ihsani
+4. Mochammad Dyenta Dwiantomitara
+5. Rain Elgratio Sion Hasian Lumban G
 
 # Apache Cloudstack 4.18 on Ubuntu 22.04
+INDENTATION MATTERS IN EVERY CONFIGURATION, BE WARY!
+
+### Youtube Overview
+[![youtube video](https://img.youtube.com/vi/viqVYDkhiWI/0.jpg)](https://www.youtube.com/watch?v=viqVYDkhiWI)
 
 ## Network/System Cofiguration
 Home network: 192.168.104.0/24
@@ -17,15 +21,17 @@ Subnet mask: 255.255.255.0
 
 Management IP address: 192.168.104.12
 
-System IP address: 192.168.104.
+System IP address: 192.168.104.35
 
-System IP address: 192.168.104.
+Public IP address: 192.168.104.
 
 =============================================================
 
 ### Set static IP for management server
 #### Network configuration with netplan
 Create backup for all existing configurations by adding .bak
+
+Edit /etc/netplan/01-netcfg.yaml :
 
 root@acsaserver:~$ cat /etc/netplan/01-netcfg.yaml
 ```
@@ -67,7 +73,7 @@ apt install htop lynk duf -y
 apt install bridge-utils
 ```
 #### Configure logical volume management or LVM (Optional)
-not required unless logical volume is already used
+If logical volume is already used:
 ```
 lvextend -l +100%FREE /dev/ubuntu-vg/ubuntu-lv
 resize2fs /dev/ubuntu-vg/ubuntu-lv
@@ -86,7 +92,7 @@ sed -i '/#PermitRootLogin prohibit-password/a PermitRootLogin yes' /etc/ssh/sshd
 service ssh restart
 ```
 #### Set timezone
-Time and date must be synchronized in order to gain access
+Time and date must be synchronized in order to work with hypervisors and other cloudstack agents. Set the timezone as follows:
 ```
 timedatectl set-timezone Asia/Jakarta
 
@@ -186,10 +192,8 @@ systemctl mask libvirtd.socket libvirtd-ro.socket libvirtd-admin.socket libvirtd
 systemctl restart libvirtd
 ```
 #### More configurations to support docker and other services
+on certain hosts where you may be running docker and other services, you may need to add the following lines to /etc/sysctl.conf and then run sysctl -p:
 ```
-# on certain hosts where you may be running docker and other services, you may need to add the following in /etc/sysctl.conf
-# then run sysctl -p: --> /etc/sysctl.conf
-
 echo "net.bridge.bridge-nf-call-arptables = 0" >> /etc/sysctl.conf
 echo "net.bridge.bridge-nf-call-iptables = 0" >> /etc/sysctl.conf
 sysctl -p
@@ -333,8 +337,8 @@ echo host_uuid = \"$UUID\" >> /etc/libvirt/libvirtd.conf
 systemctl restart libvirtd
 ```
 ### Disable firewall for easier process
+Ensure the firewall is inactive:
 ```
-# make sure it's inactive
 ufw status
 ```
 ### Disable apparmour on libvirtd
@@ -363,6 +367,7 @@ service nfs-kernel-server restart
 ```
 
 ### Enable root login (PermitRootLogin)
+Ensure root login is enabled in the SSH configuration:
 ```
 sed -i '/#PermitRootLogin prohibit-password/a PermitRootLogin yes' /etc/ssh/sshd_config
 
